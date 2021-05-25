@@ -1,3 +1,5 @@
+package Prenda;
+
 public enum Material {
   TELA,
   PLASTICO,

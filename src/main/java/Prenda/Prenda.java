@@ -1,3 +1,5 @@
+package Prenda;
+
 import static java.util.Objects.requireNonNull;
 
 public class Prenda {
@@ -21,7 +23,6 @@ public class Prenda {
     return tipo.getCategoria();
   }
 
-  /*
   public Tipo getTipo() {
     return tipo;
   }
@@ -41,6 +42,5 @@ public class Prenda {
   public Trama getTrama() {
     return trama;
   }
-  */
 }
 
