@@ -1,0 +1,245 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+Categoria "1"<-"*" Tipo
+Tipo "1"<--"*" Prenda
+ColorRgb "1-2"<--"*" Prenda
+Material "1"<-left-"*" Prenda
+Trama "1"<-left-"*" Prenda
+PrendaBorrador "0-*"<--"1" RepositorioPrendaBorrador
+PrendaBorrador ...right...>"1" Prenda
+Uniforme ..> DisenioPlantilla
+Uniforme "*"-up->"3-4" Prenda
+SugerenciaDeAtuendo ..> Atuendo
+SugerenciaDeAtuendo ---> Prenda
+ProveedorDeClima --> ServicioDeClima
+SugerenciaDeAtuendo -left-> ProveedorDeClima
+Sugerencia -->"1" TipoSugerencia
+Sugerencia -->"1" EstadoSugerencia
+Sugerencia -->"1" Guardarropa
+Guardarropa "1"--->"*" Prenda
+Usuario --->"*" Guardarropa
+Usuario --->"*" Sugerencia
+
+class Prenda {
+  Tipo tipo;
+  Material material;
+  ColorRgb colorPrimario;
+  ColorRgb colorSecundario;
+  Trama trama;
+  getCategoria()
+  }
+
+enum Trama {
+  LISA,
+  ESTAMPA,
+  RAYADA,
+  LUNARES,
+  CUADROS
+}
+
+enum Material {
+  TELA,
+  PLASTICO,
+  ACETATO,
+  CUERO,
+  ALGODON,
+  PIQUE
+}
+
+enum Categoria {
+  PARTE_SUPERIOR,
+  PARTE_INFERIOR,
+  CALZADO,
+  ACCESORIOS
+}
+
+enum Tipo {
+  GAFAS(CategoriaPrenda.ACCESORIOS),
+  REMERA(CategoriaPrenda.PARTE_SUPERIOR),
+  PANTALON(CategoriaPrenda.PARTE_INFERIOR),
+  ZAPATILLAS(CategoriaPrenda.CALZADO),
+  PANIUELO(CategoriaPrenda.ACCESORIOS),
+  ZAPATOS(CategoriaPrenda.CALZADO),
+  MUSCULOSA(CategoriaPrenda.PARTE_SUPERIOR),
+  POLERA(CategoriaPrenda.PARTE_SUPERIOR),
+  BOTAS(CategoriaPrenda.CALZADO)
+  CategoriaPrenda categoria
+  getCategoria()
+}
+
+class ColorRgb {
+  Integer rojo
+  Integer verde
+  Integer azul
+
+  getRojo()
+  getVerde()
+  getAzul()
+}
+
+class PrendaBorrador {
+  Tipo tipo;
+  Material material;
+  ColorRgb colorPrimario;
+  ColorRgb colorSecundario;
+  Trama tramaPorDefecto = Trama.LISA;
+  Trama trama = tramaPorDefecto;
+  Integer temperaturaAdecuadaMaxima;
+  prendaInvalida()
+  PrendaBorrador(Tipo tipo)
+  agregarMaterial(Material material)
+  agregarColorPrimario(ColorRgb colorPrimario)
+  agregarColorSecundario(ColorRgb colorSecundario)
+  agregarTrama(Trama trama)
+  definirtemperaturaAdecuadaMaxima(Integer temperaturaAdecuadaMaxima)
+  validarReglasDeCreacion()
+  crearPrenda()
+  agregarBorradorAlRepo(RepositorioPrendaBorrador repositorioBorradores)
+}
+
+class RepositorioPrendaBorrador {
+  List<PrendaBorrador> borradores
+  agregarBorrador(PrendaBorrador borrador)
+  List<PrendaBorrador> getBorradoresIncompletos()
+}
+
+class Uniforme {
+  Prenda parteSuperior;
+  Prenda parteInferior;
+  Prenda calzado;
+
+  Uniforme(Prenda parteSuperior, Prenda parteInferior, Prenda calzado)
+  Prenda validarCategoria(Prenda prenda, Categoria categoria)
+  List<Prenda> getPrendasUniforme()
+  Prenda getParteSuperior()
+  Prenda getParteInferior()
+  Prenda getCalzado()
+}
+
+class Atuendo extends Uniforme {
+  Prenda accesorio;
+  Atuendo(Prenda parteSuperior, Prenda parteInferior, Prenda calzado, Prenda accesorio)
+  Prenda getAccesorio()
+}
+
+class DisenioPlantillaSanJuan extends DisenioPlantilla {
+  Prenda crearPrendaSuperior()
+  Prenda crearPrendaInferior()
+  Prenda crearCalzado()
+}
+
+class DisenioJohnson extends DisenioPlantilla {
+  Prenda crearPrendaSuperior()
+  Prenda crearPrendaInferior()
+  Prenda crearCalzado()
+}
+
+abstract  class DisenioPlantilla {
+  Uniforme getUniforme()
+  Prenda crearPrendaSuperior()
+  Prenda crearPrendaInferior()
+  Prenda crearCalzado()
+}
+
+class SugerenciaDeAtuendo {
+  ProveedorDeClima proveedorServicioDeClima
+  Integer temperaturaActual
+  Integer probabilidadPrecipitaciones
+  actualizarTemperaturaActual()
+  actualizarProbabilidadDePrecipitaciones()
+  Atuendo getAtuendoSugeridoParaTemperaturaActual(List<Prenda> prendasDisponibles)
+  Atuendo getSugerenciaAtuendo(List<Prenda> prendasDisponibles)
+  Prenda getPrendaAdecuadaParaLaTemperaturaActual(List<Prenda> prendas, Categoria categoria)
+  List<Prenda> getPrendaCategoriaCorrecta(List<Prenda> prendas, Categoria categoria)
+}
+
+interface ServicioDeClima {
+  Integer getProbabilidadDePrecipitaciones()
+  Integer getTemperaturaEnCelsius()
+}
+
+class FakeHandler implements ServicioDeClima {
+  Integer probPrecipitaciones = 0
+  Integer temperatura =19
+
+ FakeHandler(Integer temperatura, Integer probPrecipitaciones)
+  Integer getProbabilidadDePrecipitaciones()
+  Integer getTemperaturaEnCelsius()
+}
+
+class AccuWeatherHandler implements ServicioDeClima {
+  static final String Ciudad = "Buenos Aires, Argentina";
+  AccuWeatherAPI apiPronosticoClima = new AccuWeatherAPI();
+  List<Map<String, Object>> condicionesClimaticas
+  actualizarDatosApiClima()
+  Integer getProbabilidadDePrecipitaciones()
+  Integer getTemperaturaEnCelsius()
+  Integer fahrenheitACelsius(Integer temperaturaEnFarenheit)
+}
+
+class ProveedorDeClima {
+  ServicioDeClima proveedor;
+  setProveedorDeClima(ServicioDeClima nuevoProveedor)
+  Integer getProbabilidadDePrecipitaciones()
+  Integer getTemperatura()
+}
+
+enum EstadoSugerencia {
+  ACEPTADA,
+  RECHAZADA,
+  TENTATIVA
+}
+
+enum TipoSugerencia {
+  AGREGAR,
+  QUITAR
+}
+
+class Guardarropa {
+  String nombre
+  Set<Prenda> prendas
+  String getNombre()
+  setNombre(String nombre)
+  Set<Prenda> getPrendas()
+  borrarPrenda(Prenda prenda)
+  cargarPrenda(Prenda prenda)
+}
+
+class Sugerencia {
+  Guardarropa guardarropa;
+  Prenda prenda;
+  EstadoSugerencia estado = EstadoSugerencia.TENTATIVA
+  TipoSugerencia tipoSugerencia;
+  Sugerencia(Prenda prenda,Guardarropa guardarropa, TipoSugerencia tipoSugerencia)
+  EstadoSugerencia getEstado()
+  Guardarropa getGuardarropa()
+  TipoSugerencia getTipoSugerencia()
+  Prenda getPrenda()
+  aceptarSugerencia()
+  rechazarSugerencia()
+  deshacerEstadoSugerencia()
+
+}
+
+class Usuario {
+  String nombre
+  Set<Guardarropa> guardarropas
+  List<Sugerencia> sugerencias
+  Usuario(String nombre)
+  List<Sugerencia> getSugerencias()
+  Set<Guardarropa> getGuardarropas()
+  agregarGuardarropa(Guardarropa guardarropa)
+  cargarPrendaAGuardarropa(Guardarropa guardarropa, Prenda prenda)
+  quitarPrendaAGuardarropa(Guardarropa guardarropa, Prenda prenda)
+  agregarSugerencia(Sugerencia sugerencia)
+  compartirGuardarropa(Guardarropa guardarropa, Usuario usuario)
+  sugerirAgregarPrendaGuardarropa(Prenda prenda, Guardarropa guardarropa, Usuario usuario)
+  sugerirQuitarPrendaGuardarropa(Prenda prenda,Guardarropa guardarropa, Usuario usuario)
+  aceptarSugerencia(Sugerencia sugerencia)
+  deshacerSugerenciaAceptada(Sugerencia sugerencia)
+}
+
+skinparam linetype polyline
+skinparam linetype ortho
+@enduml

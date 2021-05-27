@@ -1,7 +1,7 @@
 package Conjunto;
 
 import Prenda.*;
-
+//TODO HACER INTERFAZ PARA AATUENDO Y UNIFORME
 public class Atuendo extends Uniforme {
   private Prenda accesorio;
 
