@@ -1,8 +1,8 @@
-import Uniforme.Uniforme;
+import Conjunto.Uniforme;
 import Utilidades.ExcepcionCategoriaErrorEnUniforme;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import Uniforme.*;
+import Conjunto.*;
 import Prenda.*;
 
 public class UniformeTest {
@@ -56,17 +56,17 @@ void siConstruyoUnUniformeConPrendasDeCategoriaErroneaArrojaExcepcion() {
 
 private Prenda prendaSuperior() {
   return new Prenda(Tipo.CAMISA, Material.ALGODON, new ColorRgb(10,10,10),
-      null, Trama.ESTAMPA);
+      null, Trama.ESTAMPA, 30);
 }
 
 private Prenda prendaInferior() {
   return new Prenda(Tipo.PANTALON, Material.ALGODON, new ColorRgb(55,55,55),
-      null, Trama.ESTAMPA);
+      null, Trama.ESTAMPA, 25);
 }
 
 private Prenda prendaCalzado() {
   return new Prenda(Tipo.ZAPATOS, Material.CUERO, new ColorRgb(55,55,55),
-      null, Trama.LISA);
+      null, Trama.LISA, 20);
 }
 
 }

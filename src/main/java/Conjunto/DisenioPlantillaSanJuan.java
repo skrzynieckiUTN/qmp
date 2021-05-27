@@ -1,4 +1,4 @@
-package Uniforme;
+package Conjunto;
 
 import Prenda.PrendaBorrador;
 import Prenda.*;

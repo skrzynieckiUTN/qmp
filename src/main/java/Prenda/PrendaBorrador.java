@@ -10,6 +10,7 @@ public class PrendaBorrador {
   private ColorRgb colorSecundario;
   private Trama tramaPorDefecto = Trama.LISA;
   private Trama trama = tramaPorDefecto;
+  private Integer temperaturaAdecuadaMaxima;
 
 
   private boolean prendaInvalida() {
@@ -41,6 +42,10 @@ public class PrendaBorrador {
     }
   }
 
+  public void definirtemperaturaAdecuadaMaxima(Integer temperaturaAdecuadaMaxima){
+    this.temperaturaAdecuadaMaxima = temperaturaAdecuadaMaxima;
+  }
+
   private void validarReglasDeCreacion() {
     if (prendaInvalida()) {
       throw new ExcepcionPrendaIncompleta("Prenda invalida");
@@ -49,7 +54,7 @@ public class PrendaBorrador {
 
   public Prenda crearPrenda() {
     validarReglasDeCreacion();
-    return new Prenda(tipo, material, colorPrimario, colorSecundario, trama);
+    return new Prenda(tipo, material, colorPrimario, colorSecundario, trama, temperaturaAdecuadaMaxima);
   }
 
   public void agregarBorradorAlRepo(RepositorioPrendaBorrador repositorioBorradores) {

@@ -8,15 +8,17 @@ public class Prenda {
   private ColorRgb colorPrimario;
   private ColorRgb colorSecundario;
   private Trama trama;
+  private Integer temperaturaAdecuadaMaxima;
 
 
   public Prenda(Tipo tipo, Material material, ColorRgb colorPrimario,
-                ColorRgb colorSecundario, Trama trama) {
+                ColorRgb colorSecundario, Trama trama, Integer temperaturaAdecuadaMaxima) {
     this.tipo = requireNonNull(tipo, "El tipo de prenda es obligatorio");
     this.material = requireNonNull(material, "El tipo de material es obligatorio");
     this.colorPrimario = requireNonNull(colorPrimario, "El color primario de prenda es obligatorio");
     this.colorSecundario = colorSecundario;
     this.trama = trama;
+    this.temperaturaAdecuadaMaxima = temperaturaAdecuadaMaxima;
   }
 
   public Categoria getCategoria() {
@@ -42,5 +44,10 @@ public class Prenda {
   public Trama getTrama() {
     return trama;
   }
+
+  public Integer getTemperaturaAdecuadaMaxima() {
+    return temperaturaAdecuadaMaxima;
+  }
+
 }
 

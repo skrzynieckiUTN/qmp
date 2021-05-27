@@ -1,14 +1,11 @@
-package Uniforme;
+package Conjunto;
 import Prenda.*;
 import Utilidades.*;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class Uniforme {
-  private Prenda parteSuperior;
-  private Prenda parteInferior;
-  private Prenda calzado;
+  protected Prenda parteSuperior;
+  protected Prenda parteInferior;
+  protected Prenda calzado;
 
   public Uniforme(Prenda parteSuperior, Prenda parteInferior, Prenda calzado) {
     this.parteSuperior = validarCategoria(parteSuperior, Categoria.PARTE_SUPERIOR);
@@ -16,7 +13,7 @@ public class Uniforme {
     this.calzado = validarCategoria(calzado, Categoria.CALZADO);
   }
 
-  private Prenda validarCategoria(Prenda prenda, Categoria categoria) {
+  protected Prenda validarCategoria(Prenda prenda, Categoria categoria) {
     if (prenda.getCategoria() != categoria) {
       throw new ExcepcionCategoriaErrorEnUniforme("Categoria invalida para " + categoria.toString());
     }

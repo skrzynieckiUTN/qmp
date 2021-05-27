@@ -23,14 +23,14 @@ void laCategoriaDeUnPANIUELOAesACCESTORIOS() {
 }
 
 private Prenda prendaDeTelaYColorPrimario(Tipo tipo) {
-  return new Prenda(tipo, Material.CUERO,new ColorRgb(15,325,9), null, null);
+  return new Prenda(tipo, Material.CUERO,new ColorRgb(15,325,9), null, null, 20);
 }
 
 @Test
 void prendaSinMaterialNoSePuedeCrear() { //se lanza la null pointer exception
   assertThrows(NullPointerException.class,
       ()->{
-        new Prenda(null, Material.CUERO,new ColorRgb(15,325,9), null, null);
+        new Prenda(null, Material.CUERO,new ColorRgb(15,325,9), null, null, 25);
       });
 }
 
